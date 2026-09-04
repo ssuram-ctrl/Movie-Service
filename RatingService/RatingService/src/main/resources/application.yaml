@@ -1,0 +1,18 @@
+server :
+   port: 8082
+
+spring:
+  datasource:
+     url       : jdbc:h2:mem:testdb
+     username  : user
+     password  : password
+     driver-class-name : org.h2.Driver
+  application:
+    name: rating-service
+    
+jpa:
+   database-platform : org.hibernate.dialect.H2Dialect
+   
+   hibernate:
+        ddl-auto : update
+   
