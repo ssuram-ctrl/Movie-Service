@@ -133,7 +133,7 @@
                     <docker>
 						<publishRegistry>
 							<username>${env.DOCKER_USER}</username>
-							<password>${env,DOCKERHUB_PWD}</password>
+							<password>${env.DOCKERHUB_PWD}</password>
 						</publishRegistry>
 					</docker>
                 </configuration>
