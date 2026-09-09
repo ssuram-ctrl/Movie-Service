@@ -36,7 +36,7 @@ jobs:
         run: |
           mvn -B spring-boot:build-image -DskipTests \
             -Dspring-boot.build-image.imageName=${DOCKERHUB_USER}/movie-service:latest
-          docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PWD"
+          echo "$DOCKERHUB_PWD" | docker login -u "$DOCKERHUB_USER" --password-stdin
           docker push ${DOCKERHUB_USER}/movie-service:latest
 
   
