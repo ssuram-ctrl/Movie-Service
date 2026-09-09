@@ -19,7 +19,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -28,24 +29,33 @@ jobs:
           distribution: "temurin"
           cache: maven
 
-      # ADD THIS HERE
       - name: Check Docker Hub username
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
         run: |
-          echo "Docker Hub username: $DOCKERHUB_USER"
+          if [ "$DOCKERHUB_USER" = "ssuram1" ]; then
+            echo "Docker Hub username is correct"
+          else
+            echo "Docker Hub username is NOT ssuram1"
+          fi
 
-      - name: Build and push Movie Service Docker image
+      - name: Build Movie Service Docker image
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
-          DOCKERHUB_PWD: ${{ secrets.DOCKERHUB_PWD }}
         working-directory: movie-service/movie-service
         run: |
           mvn -B spring-boot:build-image -DskipTests \
             -Dspring-boot.build-image.imageName=${DOCKERHUB_USER}/movie-service:latest
 
+      - name: Login to Docker Hub
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+          DOCKERHUB_PWD: ${{ secrets.DOCKERHUB_PWD }}
+        run: |
           echo "$DOCKERHUB_PWD" | docker login -u "$DOCKERHUB_USER" --password-stdin
 
+      - name: Push Movie Service image
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+        run: |
           docker push ${DOCKERHUB_USER}/movie-service:latest
-
-  
