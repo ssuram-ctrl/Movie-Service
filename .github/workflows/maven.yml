@@ -10,27 +10,33 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build & push docker image
-    env:
-    DOCKERHUB_USER: ${{secrets.DOCKERHUB_USER}}
-    DOCKERHUB_PWD: ${{secrets.DOCKERHUB_PWD}}
-      run: mvn -B spring-boot:build-image -DskipTests
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Build and push Movie Service Docker image
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+          DOCKERHUB_PWD: ${{ secrets.DOCKERHUB_PWD }}
+        working-directory: movie-service/movie-service
+        run: |
+          mvn -B spring-boot:build-image -DskipTests \
+            -Dspring-boot.build-image.imageName=${DOCKERHUB_USER}/movie-service:latest
+          docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PWD"
+          docker push ${DOCKERHUB_USER}/movie-service:latest
 
   
