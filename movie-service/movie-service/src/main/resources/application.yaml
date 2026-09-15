@@ -3,15 +3,15 @@ server :
 
 spring:
   datasource:
-     url       : jdbc:h2:mem:testdb
-     username  : user
-     password  : password
-     driver-class-name : org.h2.Driver
+     url       : jdbc:mysql://mysql:3306/sampledb
+     username  : userD17
+     password  : BDWacpl3Y5itPRI0
+     driver-class-name : com.mysql.cj.jdbc.Driver
   application:
     name: movie-service
     
 jpa:
-   database-platform : org.hibernate.dialect.H2Dialect
+   database-platform : org.hibernate.dialect.MySQL8Dailect
    
    hibernate:
         ddl-auto : update
