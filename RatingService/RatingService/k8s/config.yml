@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  application.yaml: "server :\n   port: 8081\n\nspring:\n  datasource:\n     url       :
+    jdbc:mysql://mysql:3306/sampledb\n     username  : userD17\n     password  : BDWacpl3Y5itPRI0\n
+    \    driver-class-name : com.mysql.cj.jdbc.Driver\n  application:\n    name: movie-service\n
+    \   \njpa:\n   database-platform : org.hibernate.dialect.MySQL8Dailect\n   \n
+    \  hibernate:\n        ddl-auto : update\n   \n"
+kind: ConfigMap
+metadata:
+  name: ratingservice-config

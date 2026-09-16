@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ratingservice
+  name: ratingservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ratingservice
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ratingservice
+    spec:
+      containers:
+      - image: docker.io/ssuram1/ratingservice
+        name: ratingservice
+        volumeMounts:
+          - mountPath: /app/config
+            name: ratingservice-config
+        env:
+          - name:  SPRING_CONFIG_LOCATION  
+            value: /app/config/ 
+      volumes:
+        - name: ratingservice-config
+          configMap:
+           name: ratingservice-config
+status: {}

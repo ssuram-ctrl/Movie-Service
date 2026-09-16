@@ -89,6 +89,20 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>
+							docker.io/ssuram1/${project.artifactId}:${project.version}}</name>
+						<publish>true</publish>
+					</image>
+					<docker>
+						<publishRegistry>
+							<username>${env.DOCKER_USER}</username>
+							<password>${env.DOCKERHUB_PWD}</password>
+						</publishRegistry>
+					</docker>
+				</configuration>
+
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
